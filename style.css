@@ -1,0 +1,229 @@
+:root {
+  --bg: #ffffff;
+  --fg: #24292f;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --surface: #f6f8fa;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --code-bg: #f6f8fa;
+  --shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.site-header {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 首页报告网格 */
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.report-card {
+  display: block;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s, box-shadow .12s, border-color .12s;
+}
+
+.report-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(31, 35, 40, 0.12);
+  border-color: var(--accent);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  line-height: 1.4;
+  color: var(--fg);
+}
+
+.card-filename {
+  font-size: 12px;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+/* 报告详情 */
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.report-body {
+  font-size: 16px;
+}
+
+.report-body h1, .report-body h2, .report-body h3, .report-body h4 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.report-body h1 { font-size: 32px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.report-body h2 { font-size: 24px; }
+.report-body h3 { font-size: 20px; }
+.report-body h4 { font-size: 16px; }
+
+.report-body p {
+  margin: 0 0 16px;
+}
+
+.report-body a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.report-body a:hover {
+  text-decoration: underline;
+}
+
+.report-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.report-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  overflow-x: auto;
+  display: block;
+}
+
+.report-body th, .report-body td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.report-body th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+.report-body tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.report-body code {
+  background: var(--code-bg);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 85%;
+}
+
+.report-body pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.report-body pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.report-body ul, .report-body ol {
+  padding-left: 24px;
+  margin: 0 0 16px;
+}
+
+.report-body blockquote {
+  margin: 0 0 16px;
+  padding: 8px 16px;
+  border-left: 4px solid var(--border);
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.report-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+.loading, .error, .empty {
+  padding: 20px 0;
+  color: var(--muted);
+}
+
+.error {
+  color: #cf222e;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px 32px;
+  }
+
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-body h1 { font-size: 26px; }
+  .report-body h2 { font-size: 20px; }
+  .report-body h3 { font-size: 18px; }
+}

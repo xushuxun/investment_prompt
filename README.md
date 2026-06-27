@@ -52,3 +52,30 @@
 
 
 > agent只是观点的搬运工，或许可以把报告结果当成当前市场共识？
+
+## 静态网站
+
+项目包含一个简单的静态站点，可直接发布到 GitHub Pages：
+
+- `index.html`：左侧目录 + 右侧报告阅读器（使用 [marked.js](https://marked.js.org/) 在浏览器中渲染 Markdown）
+- `style.css`：页面样式
+- `reports.json`：报告目录索引
+- `build.py`：扫描 `reports/` 目录并重新生成 `reports.json`
+
+### 本地预览
+
+```bash
+python3 -m http.server 8080
+# 然后打开 http://localhost:8080
+```
+
+### 发布到 GitHub Pages
+
+1. 将本仓库推送到 GitHub
+2. 运行 `python3 build.py` 生成最新的 `reports.json`
+3. 在仓库 **Settings → Pages** 中：
+   - Source 选择 **Deploy from a branch**
+   - Branch 选择要发布的分支（如 `main`），文件夹选择 **/(root)**
+4. 保存后即可通过 `https://<用户名>.github.io/<仓库名>/` 访问
+
+新增或修改报告后，重新执行 `python3 build.py` 更新目录索引即可。

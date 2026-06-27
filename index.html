@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投资研究报告</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="./" class="brand">📈 投资研究报告</a>
+    </header>
+
+    <main id="main" class="main">
+      <div id="home" class="home">
+        <h1 class="page-title">研究报告目录</h1>
+        <div id="report-grid" class="report-grid">
+          <div class="loading">加载目录…</div>
+        </div>
+      </div>
+
+      <article id="content" class="content hidden">
+        <a href="./" class="back-link" onclick="event.preventDefault(); showHome();">← 返回目录</a>
+        <div id="report-body" class="report-body">
+          <div class="loading">加载中…</div>
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const homeEl = document.getElementById('home');
+    const contentEl = document.getElementById('content');
+    const reportBodyEl = document.getElementById('report-body');
+    const gridEl = document.getElementById('report-grid');
+    const reportsPath = './reports.json';
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function showHome() {
+      homeEl.classList.remove('hidden');
+      contentEl.classList.add('hidden');
+      document.title = '投资研究报告';
+      history.replaceState(null, '', './');
+    }
+
+    async function loadReport(file) {
+      homeEl.classList.add('hidden');
+      contentEl.classList.remove('hidden');
+      reportBodyEl.innerHTML = '<div class="loading">加载中…</div>';
+      window.scrollTo(0, 0);
+
+      try {
+        const res = await fetch('./reports/' + encodeURIComponent(file));
+        if (!res.ok) throw new Error('无法加载报告');
+        const md = await res.text();
+        reportBodyEl.innerHTML = marked.parse(md, { headerIds: true, mangle: false });
+        document.title = file.replace(/\.md$/i, '') + ' | 投资研究报告';
+        history.replaceState(null, '', '?report=' + encodeURIComponent(file));
+      } catch (e) {
+        reportBodyEl.innerHTML = '<div class="error">加载失败：' + escapeHtml(e.message) + '</div>';
+      }
+    }
+
+    function renderGrid(reports) {
+      if (!reports.length) {
+        gridEl.innerHTML = '<div class="empty">暂无报告</div>';
+        return;
+      }
+
+      gridEl.innerHTML = '';
+      reports.forEach(r => {
+        const card = document.createElement('a');
+        card.className = 'report-card';
+        card.href = '?report=' + encodeURIComponent(r.file);
+        card.innerHTML = '<h3 class="card-title">' + escapeHtml(r.title) + '</h3>' +
+                         '<span class="card-filename">' + escapeHtml(r.file) + '</span>';
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          loadReport(r.file);
+        });
+        gridEl.appendChild(card);
+      });
+    }
+
+    async function init() {
+      try {
+        const res = await fetch(reportsPath);
+        if (!res.ok) throw new Error('无法加载目录');
+        const reports = await res.json();
+        renderGrid(reports);
+
+        const params = new URLSearchParams(location.search);
+        const report = params.get('report');
+        if (report && reports.some(r => r.file === report)) {
+          loadReport(report);
+        }
+      } catch (e) {
+        gridEl.innerHTML = '<div class="error">目录加载失败：' + escapeHtml(e.message) + '</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
