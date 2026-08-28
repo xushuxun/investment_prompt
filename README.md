@@ -2,7 +2,7 @@
 
 用法例子：
 
-1. 创建新目录，放入提示词模板 ./lilu_value_investing_report.md 
+1. 创建新目录，放入提示词模板 `template.md`
 2. 启动 claude code 或者 kimi cli 等工具 ，输入 “根据报告模板，分析港股吉利汽车，生成投资报告”
 
 分析结果：
